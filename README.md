@@ -430,6 +430,7 @@ This lets GLM (acting as Claude Code) familiarize itself with the skill files an
 
 ## 📋 Roadmap
 
+- [ ] **Feishu/Lark integration** — bridge ARIS with [feishu-claude-code](https://github.com/joewongjc/feishu-claude-code) so you can monitor review progress, receive checkpoint notifications, and approve/reject ideas from Feishu on mobile
 - [ ] **Zotero MCP integration** — read papers, tags, and annotations directly from Zotero library
 - [ ] More executor × reviewer combinations (Gemini, DeepSeek, etc.)
 

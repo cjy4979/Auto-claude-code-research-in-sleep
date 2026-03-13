@@ -377,6 +377,7 @@ claude
 
 ## 📋 Roadmap
 
+- [ ] **飞书集成** — 对接 [feishu-claude-code](https://github.com/joewongjc/feishu-claude-code)，在飞书/手机上实时查看 review 进度、接收 checkpoint 通知、审批或拒绝 idea
 - [ ] **Zotero MCP 集成** — 直接读取 Zotero 论文库的论文、标签和批注
 - [ ] 更多执行者 × 评审者组合（Gemini、DeepSeek 等）
 
