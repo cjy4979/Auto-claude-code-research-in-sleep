@@ -1032,7 +1032,7 @@ claude
 
 ### Planned
 
-- [ ] **GitHub-based code sync** — support `git push` → server `git pull` as alternative to `rsync` over SSH. Benefits: no direct SSH needed, version-tracked deployments, multi-server sync with one push
+- [x] **GitHub-based code sync** — `/run-experiment` now supports `code_sync: git` in CLAUDE.md: `git push` locally → `ssh server "git pull"` on the server. Default remains `rsync` (zero breaking changes)
 - [ ] **W&B integration** — pull training curves and metrics from Weights & Biases as feedback signal. Auto-review-loop can read loss/accuracy plots to diagnose training issues and suggest next experiments
   - Related projects: [wandb-mcp-server](https://github.com/wandb/wandb-mcp-server) (official W&B MCP, 40⭐), or via `wandb api` CLI
 - [ ] **Daemon mode** — auto-restart Claude Code session via `launchd`/`systemd` for true unattended operation. Currently the orchestration layer requires an active CLI session; state files (`REVIEW_STATE.json`, `AUTO_REVIEW.md`) support resuming across sessions, but relaunch is manual ([#11](https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep/issues/11))

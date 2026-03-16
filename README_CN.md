@@ -930,7 +930,7 @@ claude
 
 ### 计划中
 
-- [ ] **GitHub 代码同步** — 支持 `git push` → 服务器 `git pull` 替代 `rsync` over SSH。好处：无需本地直连 SSH、部署有版本记录、一次 push 多台服务器同步
+- [x] **GitHub 代码同步** — `/run-experiment` 现支持在 CLAUDE.md 中设置 `code_sync: git`：本地 `git push` → 服务器 `ssh "git pull"`。默认仍为 `rsync`（零破坏性改动）
 - [ ] **W&B 集成** — 从 Weights & Biases 拉取训练曲线和指标作为反馈信号。auto-review-loop 可读取 loss/accuracy 图诊断训练问题并建议下一步实验
   - 相关项目：[wandb-mcp-server](https://github.com/wandb/wandb-mcp-server)（W&B 官方 MCP，40⭐）或通过 `wandb api` CLI
 - [ ] **常驻模式（Daemon mode）** — 通过 `launchd`/`systemd` 自动重启 Claude Code 会话，实现真正的无人值守运行。当前编排层需要活跃的 CLI 会话；状态文件（`REVIEW_STATE.json`、`AUTO_REVIEW.md`）支持跨会话恢复，但重启需手动操作（[#11](https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep/issues/11)）
