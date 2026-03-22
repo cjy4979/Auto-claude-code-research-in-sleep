@@ -13,6 +13,23 @@ This path is useful when you want:
 
 This guide adds a local toolchain alongside ARIS. It does **not** replace `skills/skills-codex/`.
 
+## First-Time Setup
+
+If you are new to this path, use this order:
+
+1. Install and authenticate **Codex CLI**.
+   - `codex --help` should work.
+   - If needed, run `codex login`.
+2. Configure **Gemini reviewer access**.
+   - Recommended for most users: `GEMINI_API_KEY`.
+   - Gemini CLI is optional, not required for the API path.
+3. Run a **single review smoke test** before the multi-round loop.
+
+Important scope note:
+
+- `tools/run_gemini_review.py` only needs Gemini access.
+- The intended **Codex executes, Gemini reviews** workflow needs both Codex CLI and Gemini configured before you start the loop.
+
 ## Why This Path
 
 - Codex CLI is a practical low-friction local executor for many users.
@@ -55,10 +72,18 @@ All profiles force Gemini to return a strict JSON object with:
 
 ## Requirements
 
-You need one of these reviewer backends:
+Recommended beginner path:
+
+- **Codex CLI + Gemini API**
+  - install and authenticate `codex`
+  - set `GEMINI_API_KEY`
+  - run the single-review smoke test below
+
+Alternative reviewer backend:
 
 1. **Gemini API**
    - set `GEMINI_API_KEY`
+   - no Gemini CLI install required
 2. **Gemini CLI**
    - install `gemini` locally
    - authenticated CLI session or API-key-backed CLI config
@@ -84,6 +109,8 @@ EOF
 
 The runners auto-load `~/.gemini/.env` if present.
 
+If that file exists, `--backend auto` resolves to the Gemini API path even when Gemini CLI is not installed.
+
 If you want a repo-local Gemini CLI install:
 
 ```bash
@@ -97,6 +124,23 @@ The runner resolves the Gemini binary in this order:
 1. `--gemini-bin`
 2. `.local-tools/gemini-cli/node_modules/.bin/gemini`
 3. `PATH`
+
+## Recommended First Run
+
+If you are setting this up for the first time, start here:
+
+```bash
+codex --help
+
+python3 tools/run_gemini_review.py \
+  --backend api \
+  --profile code \
+  --task "Smoke test: confirm the Gemini reviewer returns a valid structured review JSON for this repository." \
+  --git-diff-mode none \
+  --include-file README.md
+```
+
+If this command finishes and writes `review.json` plus `review.md`, your Gemini reviewer path is working.
 
 ## Single Review
 

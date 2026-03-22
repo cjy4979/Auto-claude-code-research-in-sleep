@@ -13,6 +13,24 @@
 
 这份指南是在 ARIS 现有能力旁边补上一条本地工具链，不会替代 `skills/skills-codex/`。
 
+## 第一次使用时的推荐顺序
+
+如果你之前完全没用过这条路径，建议按这个顺序来：
+
+1. 先安装并登录 **Codex CLI**
+   - `codex --help` 应该能正常工作
+   - 如果还没登录，先运行 `codex login`
+2. 再配置 **Gemini 审稿能力**
+   - 对大多数用户，推荐直接配置 `GEMINI_API_KEY`
+   - 如果走 API 路径，不需要额外安装 Gemini CLI
+3. 先跑一次**单次 review smoke test**
+   - 确认 review 可以正常回传 JSON，再去跑多轮 loop
+
+需要注意的范围是：
+
+- `tools/run_gemini_review.py` 本身只要求 Gemini 可用
+- 但这条“**Codex 执行，Gemini 审稿**”的完整工作流，应该在开始前把 Codex CLI 和 Gemini 都配置好
+
 ## 为什么值得加这条路径
 
 - 对很多用户来说，Codex CLI 已经是足够低门槛的本地执行器。
@@ -55,10 +73,18 @@ reviewer 支持三种 profile：
 
 ## 依赖要求
 
-你需要以下两种 reviewer backend 之一：
+对第一次使用的人，推荐的最短路径是：
+
+- **Codex CLI + Gemini API**
+  - 安装并登录 `codex`
+  - 设置 `GEMINI_API_KEY`
+  - 先运行下面的单次 review smoke test
+
+可选的 reviewer backend：
 
 1. **Gemini API**
    - 设置 `GEMINI_API_KEY`
+   - 不需要安装 Gemini CLI
 2. **Gemini CLI**
    - 本地安装 `gemini`
    - 已完成 CLI 登录，或 CLI 已配置 API key
@@ -84,6 +110,8 @@ EOF
 
 如果存在，runner 会自动加载 `~/.gemini/.env`。
 
+如果这个文件存在，那么即使你没有安装 Gemini CLI，`--backend auto` 也会优先走 Gemini API。
+
 如果你想在仓库内本地安装 Gemini CLI：
 
 ```bash
@@ -97,6 +125,23 @@ runner 按以下顺序查找 Gemini 可执行文件：
 1. `--gemini-bin`
 2. `.local-tools/gemini-cli/node_modules/.bin/gemini`
 3. `PATH`
+
+## 第一次运行时建议先执行
+
+如果你是第一次配置，先跑下面这条最小命令：
+
+```bash
+codex --help
+
+python3 tools/run_gemini_review.py \
+  --backend api \
+  --profile code \
+  --task "Smoke test: confirm the Gemini reviewer returns a valid structured review JSON for this repository." \
+  --git-diff-mode none \
+  --include-file README.md
+```
+
+如果命令顺利结束，并且产出了 `review.json` 和 `review.md`，说明 Gemini 审稿链路已经通了。
 
 ## 单次审查
 
